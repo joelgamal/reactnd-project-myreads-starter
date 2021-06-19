@@ -27,8 +27,7 @@ class Card extends Component{
             </div>
             <div className="open-search">
               <Link className="add-book-link"
-                    to='/search'
-                    
+                  to='/search'
                 >Add a book</Link>
             </div>
           </div>
@@ -37,8 +36,9 @@ class Card extends Component{
 
 }
 
-// Card.propTypes = {
-//     books: PropTypes.array.isRequired,
-// };
+Card.propTypes = {
+    books: PropTypes.array.isRequired,
+    changeBookShelf: PropTypes.func.isRequired,
+};
 
 export default Card;

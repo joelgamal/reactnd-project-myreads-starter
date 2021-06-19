@@ -18,18 +18,29 @@ class Shelf extends Component{
         this.props.changeBookShelf(book,shelf);
     }
 
+    convertName=()=>{
+        const name = this.props.name;
+        if(name === 'currentlyReading'){
+            return 'Currently Reading';
+        }else if(name === 'wantToRead'){
+            return 'Want To Read'
+        }else{
+            return 'Read'
+        }
+        
+    }
+
     render(){
         const books = this.props.books;
         const name = this.props.name;
 
-
         return(
             <div className="bookshelf">
-                <h2 className="bookshelf-title">{name}</h2>
+                <h2 className="bookshelf-title">{this.convertName()}</h2>
                 <div className="bookshelf-books">
                     <ol className="books-grid" >
                       {books.map((b)=>(
-                          (b.shelf ===name) &&(<Book book={b} changeBookShelf={this.changeBookShelf}/>)
+                          (b.shelf ===name) &&(<Book key={b.id} shelf={b.shelf} book={b} changeBookShelf={this.changeBookShelf}/>)
                         )
                       )   
                       }
@@ -41,9 +52,11 @@ class Shelf extends Component{
     }
 }
 
-// Shelf.propTypes = {
-//     books: PropTypes.array.isRequired,
-//     name: PropTypes.string.isRequired
-// };
+Shelf.propTypes = {
+    books: PropTypes.array.isRequired,
+    name: PropTypes.string.isRequired,
+    changeBookShelf: PropTypes.func.isRequired
+};
+
 
 export default Shelf;

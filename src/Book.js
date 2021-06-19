@@ -5,20 +5,18 @@ import * as BooksAPI from './BooksAPI'
 class Book extends Component{
 
     state={
-        bookShelf:''
+        bookShelf: this.props.shelf
     }
 
     handleChange = (event) =>{
         this.setState({bookShelf: event.target.value},this.changeShelf);
-        
-        
     }
 
     changeShelf =()=>{
         this.props.changeBookShelf(this.props.book, this.state.bookShelf);
         BooksAPI.update(this.props.book, this.state.bookShelf)
             .then(data => {
-                console.log(data); // JSON data parsed by `data.json()` call
+                console.log(data); 
               });
     }
 
@@ -31,11 +29,11 @@ class Book extends Component{
                     <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail})` }}></div>
                     <div className="book-shelf-changer">
                         <select onChange={this.handleChange} value={this.state.bookShelf}>
-                            <option value="move" disabled>Move to...</option>
+                            <option value="move" disabled >Move to...</option>
                             <option value="currentlyReading">Currently Reading</option>
                             <option value="wantToRead">Want to Read</option>
                             <option value="read">Read</option>
-                            <option value="none">None</option>
+                            <option value="none" >None</option>
                         </select>
                     </div>
                     </div>
@@ -50,15 +48,10 @@ class Book extends Component{
 
 }
 
-// Book.propTypes = {
-//     url: PropTypes.string.isRequired,
-//     title: PropTypes.string.isRequired,
-//     author: PropTypes.string.isRequired,
-//     id: PropTypes.number.isRequired
-// };
-
-// Book.propTypes = {
-//     book: PropTypes.object.isRequired,
-// };
+Book.propTypes = {
+    shelf: PropTypes.string.isRequired,
+    book: PropTypes.object.isRequired,
+    changeBookShelf: PropTypes.func.isRequired,
+};
 
 export default Book;

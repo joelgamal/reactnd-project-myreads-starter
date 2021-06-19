@@ -11,20 +11,6 @@ class AddBook extends Component{
         searchBooks: [],
     }
 
-    // updateQuery = (value) => {
-    //     this.setState({
-    //         query: value
-    //     })
-    //     // if (this.state.query.length > 0) {
-    //         // this.searchAllBooks();
-    //     // }else{
-    //     //     this.setState({ searchBooks: [] });
-    //     //     console.log('empty query   22');
-    //     // }
-    //     console.log(value);
-    //     console.log(this.state.query);
-    // }
-
     handleChange = (event) =>{
       const val = event.target.value;
       this.setState({query: val},this.searchAllBooks
@@ -32,19 +18,16 @@ class AddBook extends Component{
       )
     }
     searchAllBooks = () => {
-      console.log(this.state.query);
         if (this.state.query.length > 0) {
             BooksAPI.search(this.state.query).then(books => {
               if (books.error) {
                 this.setState({ searchBooks: [] });
-                console.log('errorrrrr');
               } else {
                 this.setState({ searchBooks: books });
               }
             });
         } else {
             this.setState({ searchBooks: [] });
-            console.log('empty query');
         }
         console.log(this.state.searchBooks);
     };
@@ -55,12 +38,19 @@ class AddBook extends Component{
 
 
     render(){
+      const updatedBooks = this.state.searchBooks;
+      for (const book of updatedBooks) {
+        for (const b of this.props.books) {
+          if (b.id === book.id) {
+            book.shelf = b.shelf;
+          }
+        }
+      }
 
         return(
           <div className="search-books">
             
             <div className="search-books-bar">
-              {/* <button className="close-search" onClick={() => this.setState({ showSearchPage: false })}>Close</button> */}
               <Link
                 className='close-search'
                 to='/'>
@@ -78,18 +68,21 @@ class AddBook extends Component{
             <div className="search-books-results">
               <ol className="books-grid">
                 {this.state.searchBooks.map((b)=>(
-                    <Book book={b} changeBookShelf={this.changeBookShelf}/>
+                  <Book key={b.id} shelf={b.shelf ? b.shelf : 'none'} book={b} changeBookShelf={this.changeBookShelf}/>
                   ))
                 }
                 
               </ol>
             </div>
-            <p>{this.state.query} </p>
           </div>
         )
 
     }
 }
 
+AddBook.propTypes = {
+  books: PropTypes.array.isRequired,
+  changeBookShelf: PropTypes.func.isRequired,
+};
 
 export default AddBook;
