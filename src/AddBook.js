@@ -29,7 +29,6 @@ class AddBook extends Component{
         } else {
             this.setState({ searchBooks: [] });
         }
-        console.log(this.state.searchBooks);
     };
 
     changeBookShelf = (book,shelf) =>{
