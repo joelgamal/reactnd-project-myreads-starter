@@ -67,7 +67,7 @@ class AddBook extends Component{
             <div className="search-books-results">
               <ol className="books-grid">
                 {this.state.searchBooks.map((b)=>(
-                  <Book key={b.id} shelf={b.shelf ? b.shelf : 'none'} book={b} changeBookShelf={this.changeBookShelf}/>
+                  (b.imageLinks)&&<Book key={b.id} shelf={b.shelf ? b.shelf : 'none'} book={b} changeBookShelf={this.changeBookShelf}/>
                   ))
                 }
                 
